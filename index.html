@@ -1,73 +1,60 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#050b1b">
-  <meta name="description" content="Garcia Digital cria sites profissionais, lojas virtuais e aplicativos para empresas que querem crescer.">
-  <title>Garcia Digital | Sua empresa merece destaque</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#071020"><title>Garcia Digital | Painel comercial</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="topbar">
-    <a class="brand" href="#inicio" aria-label="Garcia Digital início">
-      <span class="brand-mark">G</span><span>GARCIA <b>DIGITAL</b></span>
-    </a>
-    <button class="menu-toggle" aria-label="Abrir menu" aria-expanded="false">☰</button>
-    <nav class="nav">
-      <a href="#servicos">Serviços</a><a href="#vantagens">Vantagens</a><a href="#contato">Contato</a>
-    </nav>
-    <a class="nav-cta" href="#contato">Solicitar orçamento</a>
-  </header>
+<aside class="sidebar">
+  <a class="logo" href="#"><span class="logo-mark">G</span><span>GARCIA<small>DIGITAL</small></span></a>
+  <div class="workspace"><span class="avatar">GD</span><span><b>Garcia Digital</b><small>Área comercial</small></span><span class="chevron">⌄</span></div>
+  <p class="nav-label">WORKSPACE</p>
+  <nav class="side-nav">
+    <button class="nav-item active" data-view="dashboard"><span>▦</span> Visão geral</button>
+    <button class="nav-item" data-view="leads"><span>♙</span> Leads <b id="leadNavCount" class="nav-count">0</b></button>
+    <button class="nav-item" data-view="quotes"><span>▤</span> Orçamentos</button>
+  </nav>
+  <div class="sidebar-bottom"><div class="help-card"><span class="help-icon">✦</span><b>Hora de crescer?</b><p>Organize seus contatos e acompanhe cada oportunidade.</p></div><div class="profile"><span class="avatar profile-avatar">PG</span><span><b>Administrador</b><small>Garcia Digital</small></span><button id="settingsBtn" title="Configurações">⚙</button></div></div>
+</aside>
+<main class="main">
+  <header class="topbar"><div class="mobile-brand"><span class="logo-mark">G</span> GARCIA DIGITAL</div><div class="breadcrumbs">Workspace <span>/</span> <b id="crumb">Visão geral</b></div><div class="top-actions"><button id="exportBtn" class="ghost-button">↓ <span>Exportar dados</span></button><button class="primary-button" id="newLeadTop">＋ Novo lead</button></div></header>
+  <section class="page active" id="dashboardPage">
+    <div class="welcome"><div><p class="eyebrow">SEGUNDA-FEIRA COM FOCO NO CRESCIMENTO</p><h1>Visão geral <span class="wave">✦</span></h1><p>Acompanhe seus leads, propostas e oportunidades em um só lugar.</p></div><button class="outline-button" id="newQuoteTop">＋ Criar orçamento</button></div>
+    <div class="metric-grid">
+      <article class="metric"><div class="metric-top"><span>Total de leads</span><span class="metric-icon blue">♙</span></div><strong id="metricLeads">0</strong><small class="metric-note">Contatos cadastrados</small><div class="metric-foot"><span class="dot blue-dot"></span> Sua base de oportunidades</div></article>
+      <article class="metric"><div class="metric-top"><span>Em negociação</span><span class="metric-icon purple">↗</span></div><strong id="metricNegotiation">0</strong><small class="metric-note">Leads em conversa</small><div class="metric-foot"><span class="dot purple-dot"></span> Acompanhe os próximos passos</div></article>
+      <article class="metric"><div class="metric-top"><span>Orçamentos enviados</span><span class="metric-icon gold">▤</span></div><strong id="metricQuotes">0</strong><small class="metric-note">Propostas registradas</small><div class="metric-foot"><span class="dot gold-dot"></span> Propostas criadas no painel</div></article>
+      <article class="metric"><div class="metric-top"><span>Valor em propostas</span><span class="metric-icon green">R$</span></div><strong id="metricValue">R$ 0</strong><small class="metric-note">Soma dos orçamentos</small><div class="metric-foot"><span class="dot green-dot"></span> Potencial comercial registrado</div></article>
+    </div>
+    <div class="content-grid">
+      <section class="panel"><div class="panel-head"><div><h2>Leads recentes</h2><p>Os contatos adicionados mais recentemente.</p></div><button class="text-button" data-goto="leads">Ver todos ↗</button></div><div class="table-wrap"><table><thead><tr><th>CONTATO</th><th>INTERESSE</th><th>STATUS</th><th>DATA</th></tr></thead><tbody id="recentLeads"></tbody></table><div id="recentEmpty" class="empty-state"><span>♙</span><b>Nenhum lead por enquanto</b><p>Cadastre seu primeiro contato para começar.</p><button class="primary-button" id="emptyNewLead">＋ Cadastrar lead</button></div></div></section>
+      <section class="panel pipeline-panel"><div class="panel-head"><div><h2>Pipeline comercial</h2><p>Distribuição dos leads por etapa.</p></div></div><div id="pipeline" class="pipeline"></div><div class="pipeline-tip"><span>✦</span><p><b>Dica:</b> mantenha os status atualizados para entender onde estão as oportunidades.</p></div></section>
+    </div>
+    <section class="panel follow-panel"><div class="panel-head"><div><h2>Próximos acompanhamentos</h2><p>Leads com data de retorno definida para hoje ou atrasados.</p></div><button class="text-button" data-goto="leads">Gerenciar leads ↗</button></div><div id="followUps" class="follow-list"></div></section>
+  </section>
 
-  <main>
-    <section class="hero" id="inicio">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span> TECNOLOGIA QUE CONECTA</p>
-        <h1>Sua empresa merece <em>destaque!</em></h1>
-        <p class="lead">A Garcia Digital transforma ideias em experiências digitais que ajudam seu negócio a crescer.</p>
-        <div class="hero-actions">
-          <a class="button primary" href="#contato">Quero tirar minha ideia do papel <span>↗</span></a>
-          <a class="button secondary" href="#servicos">Conhecer soluções</a>
-        </div>
-        <div class="proof"><span class="pulse"></span> Sites, lojas virtuais e aplicativos sob medida para sua empresa.</div>
-      </div>
-      <div class="hero-art" aria-label="Ilustração de dispositivos digitais">
-        <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
-        <div class="glow-card">
-          <div class="mock-browser"><div class="browser-dots"><i></i><i></i><i></i></div><div class="mock-line short"></div><div class="mock-title">SUA EMPRESA<br><strong>NO PRÓXIMO NÍVEL</strong></div><div class="mock-line"></div><div class="mock-line mid"></div><div class="mock-panels"><span></span><span></span><span></span></div></div>
-          <div class="phone"><div class="speaker"></div><div class="phone-logo">G</div><b>GARCIA</b><small>DIGITAL</small><div class="phone-line"></div><span class="phone-caption">Sua ideia.<br> Nossa tecnologia.<br><strong>Grandes resultados.</strong></span></div>
-          <div class="floating-chip">✦ Ideias em movimento</div>
-        </div>
-      </div>
-    </section>
+  <section class="page" id="leadsPage">
+    <div class="page-title-row"><div><p class="eyebrow">RELACIONAMENTO</p><h1>Leads</h1><p>Gerencie contatos e acompanhe cada oportunidade comercial.</p></div><button class="primary-button" id="newLeadBtn">＋ Novo lead</button></div>
+    <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="leadSearch" placeholder="Buscar por nome, empresa ou e-mail..."></div><select id="statusFilter"><option value="">Todos os status</option><option>Novo</option><option>Contatado</option><option>Em negociação</option><option>Ganho</option><option>Perdido</option></select><select id="serviceFilter"><option value="">Todos os serviços</option><option>Site profissional</option><option>Loja virtual</option><option>Aplicativo</option><option>Outro</option></select></div>
+    <section class="panel"><div class="table-wrap"><table><thead><tr><th>CONTATO</th><th>EMPRESA</th><th>SERVIÇO</th><th>STATUS</th><th>PRÓXIMO CONTATO</th><th>AÇÕES</th></tr></thead><tbody id="leadsTable"></tbody></table><div id="leadsEmpty" class="empty-state"><span>♙</span><b>Seus leads aparecerão aqui</b><p>Adicione um contato e organize o acompanhamento.</p><button class="primary-button" id="leadsEmptyBtn">＋ Novo lead</button></div></div></section>
+  </section>
 
-    <section class="services section" id="servicos">
-      <div class="section-heading"><p class="eyebrow">O QUE FAZEMOS</p><h2>Soluções digitais para <em>crescer.</em></h2><p>Presença digital profissional, com foco em clareza, confiança e resultado.</p></div>
-      <div class="service-grid">
-        <article class="service-card"><div class="service-icon">▣</div><h3>Sites profissionais</h3><p>Sites modernos, responsivos e preparados para apresentar sua empresa com credibilidade.</p><a href="#contato">Quero um site <span>↗</span></a></article>
-        <article class="service-card"><div class="service-icon">🛒</div><h3>Lojas virtuais</h3><p>Venda seus produtos online com uma experiência simples, organizada e pronta para crescer.</p><a href="#contato">Quero vender online <span>↗</span></a></article>
-        <article class="service-card"><div class="service-icon">▯</div><h3>Aplicativos</h3><p>Aplicativos e experiências mobile para aproximar sua empresa dos seus clientes.</p><a href="#contato">Criar um app <span>↗</span></a></article>
-      </div>
-    </section>
+  <section class="page" id="quotesPage">
+    <div class="page-title-row"><div><p class="eyebrow">PROPOSTAS COMERCIAIS</p><h1>Orçamentos</h1><p>Crie propostas, registre valores e acompanhe o status.</p></div><button class="primary-button" id="newQuoteBtn">＋ Novo orçamento</button></div>
+    <div class="toolbar"><div class="searchbox"><span>⌕</span><input id="quoteSearch" placeholder="Buscar por cliente ou serviço..."></div><select id="quoteStatusFilter"><option value="">Todos os status</option><option>Rascunho</option><option>Enviado</option><option>Aprovado</option><option>Recusado</option></select></div>
+    <section class="panel"><div class="table-wrap"><table><thead><tr><th>ORÇAMENTO</th><th>CLIENTE</th><th>SERVIÇO</th><th>VALOR</th><th>STATUS</th><th>CRIADO EM</th><th>AÇÕES</th></tr></thead><tbody id="quotesTable"></tbody></table><div id="quotesEmpty" class="empty-state"><span>▤</span><b>Nenhum orçamento cadastrado</b><p>Crie uma proposta para registrar valores e próximos passos.</p><button class="primary-button" id="quotesEmptyBtn">＋ Criar orçamento</button></div></div></section>
+  </section>
+  <footer class="footer">Garcia Digital <span>•</span> Painel comercial <span class="footer-right">Seus dados ficam salvos neste navegador.</span></footer>
+</main>
 
-    <section class="benefits section" id="vantagens">
-      <div><p class="eyebrow">POR QUE GARCIA DIGITAL?</p><h2>Seu negócio merece mais do que estar online.</h2><p class="muted">Merece uma presença digital que transmita confiança e ajude a transformar visitas em oportunidades.</p></div>
-      <div class="benefit-list">
-        <div><span>01</span><section><h3>Mais visibilidade</h3><p>Facilite para novos clientes encontrarem sua empresa.</p></section></div>
-        <div><span>02</span><section><h3>Mais credibilidade</h3><p>Apresente seus produtos e serviços com uma imagem profissional.</p></section></div>
-        <div><span>03</span><section><h3>Experiência responsiva</h3><p>Uma experiência agradável no celular, tablet e computador.</p></section></div>
-        <div><span>04</span><section><h3>Parceria próxima</h3><p>Atendimento direto para entender sua necessidade e seu objetivo.</p></section></div>
-      </div>
-    </section>
+<div class="modal-backdrop" id="leadModal" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="leadModalTitle"><div class="modal-head"><div><p class="eyebrow">NOVO CONTATO</p><h2 id="leadModalTitle">Cadastrar lead</h2><p>Registre os dados para não perder essa oportunidade.</p></div><button class="close-btn" data-close="leadModal" aria-label="Fechar">×</button></div>
+<form id="leadForm"><input type="hidden" id="leadId"><div class="form-grid"><label>Nome do contato *<input id="leadName" required placeholder="Ex.: Mariana Silva"></label><label>Empresa<input id="leadCompany" placeholder="Nome da empresa"></label><label>WhatsApp / telefone<input id="leadPhone" placeholder="(17) 99999-9999"></label><label>E-mail<input id="leadEmail" type="email" placeholder="contato@empresa.com"></label><label>Serviço de interesse *<select id="leadService" required><option value="">Selecione</option><option>Site profissional</option><option>Loja virtual</option><option>Aplicativo</option><option>Outro</option></select></label><label>Status<select id="leadStatus"><option>Novo</option><option>Contatado</option><option>Em negociação</option><option>Ganho</option><option>Perdido</option></select></label><label>Próximo contato<input id="leadFollow" type="date"></label><label>Origem<select id="leadSource"><option>WhatsApp</option><option>Instagram</option><option>Facebook</option><option>Indicação</option><option>Prospecção ativa</option><option>Site</option><option>Outro</option></select></label><label class="full">Observações<textarea id="leadNotes" rows="3" placeholder="Necessidades do cliente, detalhes da conversa..."></textarea></label></div><div class="modal-actions"><button type="button" class="outline-button" data-close="leadModal">Cancelar</button><button type="submit" class="primary-button">Salvar lead</button></div></form></section></div>
 
-    <section class="contact section" id="contato">
-      <div><p class="eyebrow">VAMOS CRIAR ALGO INCRÍVEL</p><h2>O próximo passo da sua empresa <em>começa aqui.</em></h2><p>Conte sua ideia. Vamos conversar sobre a melhor solução digital para o seu negócio.</p></div>
-      <div class="contact-panel"><div class="contact-icon">↗</div><h3>Fale com a Garcia Digital</h3><p>Atendimento rápido pelo WhatsApp.</p><a class="button whatsapp" href="https://wa.me/5517996481854?text=Olá!%20Quero%20conhecer%20as%20soluções%20da%20Garcia%20Digital." target="_blank" rel="noopener noreferrer">Chamar no WhatsApp <span>↗</span></a><small>17 99648-1854</small></div>
-    </section>
-  </main>
+<div class="modal-backdrop" id="quoteModal" aria-hidden="true"><section class="modal" role="dialog" aria-modal="true" aria-labelledby="quoteModalTitle"><div class="modal-head"><div><p class="eyebrow">PROPOSTA COMERCIAL</p><h2 id="quoteModalTitle">Criar orçamento</h2><p>Registre o serviço, valor e validade da proposta.</p></div><button class="close-btn" data-close="quoteModal" aria-label="Fechar">×</button></div>
+<form id="quoteForm"><input type="hidden" id="quoteId"><div class="form-grid"><label>Cliente *<select id="quoteLead" required><option value="">Selecione um lead</option></select></label><label>Serviço *<select id="quoteService" required><option>Site profissional</option><option>Loja virtual</option><option>Aplicativo</option><option>Outro</option></select></label><label>Valor (R$) *<input id="quoteValue" type="number" min="0.01" step="0.01" required placeholder="1500,00"></label><label>Status<select id="quoteStatus"><option>Rascunho</option><option>Enviado</option><option>Aprovado</option><option>Recusado</option></select></label><label>Validade até<input id="quoteValid" type="date"></label><label>Prazo estimado<input id="quoteDeadline" placeholder="Ex.: 15 dias úteis"></label><label class="full">Descrição / entregáveis<textarea id="quoteDescription" rows="3" placeholder="O que está incluído no orçamento..."></textarea></label></div><div class="modal-actions"><button type="button" class="outline-button" data-close="quoteModal">Cancelar</button><button type="submit" class="primary-button">Salvar orçamento</button></div></form></section></div>
 
-  <footer><a class="brand" href="#inicio"><span class="brand-mark">G</span><span>GARCIA <b>DIGITAL</b></span></a><p>Sua empresa. Sua marca. Seu sucesso.</p><small>© <span id="year"></span> Garcia Digital. Todos os direitos reservados.</small></footer>
-  <script src="script.js"></script>
-</body>
-</html>
+<div class="modal-backdrop" id="settingsModal" aria-hidden="true"><section class="modal small-modal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle"><div class="modal-head"><div><p class="eyebrow">PREFERÊNCIAS</p><h2 id="settingsTitle">Configurações</h2><p>Gerencie os dados locais deste painel.</p></div><button class="close-btn" data-close="settingsModal" aria-label="Fechar">×</button></div><div class="settings-content"><div class="setting-row"><div><b>Exportar backup</b><p>Baixe seus leads e orçamentos em JSON.</p></div><button class="outline-button" id="backupBtn">Exportar</button></div><div class="setting-row"><div><b>Importar backup</b><p>Restaure um arquivo JSON exportado anteriormente.</p></div><label class="outline-button file-button">Importar<input type="file" id="importFile" accept=".json,application/json" hidden></label></div><div class="danger-zone"><b>Apagar dados locais</b><p>Remove os leads e orçamentos salvos neste navegador.</p><button class="danger-button" id="clearDataBtn">Apagar todos os dados</button></div><p class="privacy-note">Esta versão salva dados no navegador atual. Ela ainda não tem login, banco de dados compartilhado nem sincronização entre dispositivos.</p></div></section></div>
+<div class="toast" id="toast" role="status"></div>
+<script src="app.js"></script>
+</body></html>

@@ -1,23 +1,26 @@
-# Garcia Digital — site comercial
+# Garcia Digital — CRM comercial
 
-Site responsivo de apresentação da Garcia Digital, feito com HTML, CSS e JavaScript puro. Não precisa instalar dependências.
+Painel inicial para organizar leads, pipeline comercial e orçamentos da Garcia Digital.
 
-## Como visualizar
-1. Baixe ou extraia os arquivos.
-2. Abra `index.html` no navegador.
+## Recursos
+- Dashboard com contadores de leads, negociação, orçamentos e valor de propostas
+- Cadastro/edição/exclusão de leads
+- Status comercial, serviço de interesse, origem e data de acompanhamento
+- Busca e filtros
+- Cadastro/edição/exclusão de orçamentos
+- Visualização e impressão de orçamento
+- Exportação e importação de backup JSON
+- Layout responsivo para celular e desktop
 
-## Como publicar pelo GitHub
-1. Entre em https://github.com/new e crie um repositório chamado `garcia-digital`.
-2. Envie os arquivos `index.html`, `style.css`, `script.js` e `README.md` para o repositório.
-3. Para publicar gratuitamente, abra o repositório no GitHub e vá em **Settings → Pages**.
-4. Em **Build and deployment**, escolha **Deploy from a branch**, selecione `main` e a pasta `/ (root)`, depois salve.
+## Rodar localmente
+Abra `index.html` no navegador. Não exige instalação nem build.
 
-Também é possível importar o repositório no Vercel para deploy automático a cada atualização.
+## Publicar no GitHub + Vercel
+1. Crie um repositório GitHub chamado `garcia-digital-crm`.
+2. Envie todos os arquivos deste projeto para a raiz do repositório.
+3. No Vercel, selecione **Add New → Project** e importe o repositório.
+4. Para este site estático, deixe Build Command e Output Directory vazios/padrão e clique em Deploy.
+5. Depois de conectar Git, cada push para a branch de produção (normalmente `main`) gera um novo deploy automaticamente.
 
-## Personalização
-- O botão do WhatsApp já está configurado para `17 99648-1854`.
-- Edite os textos e serviços diretamente em `index.html`.
-- Cores, espaçamentos e versão mobile ficam em `style.css`.
-
-## Observação
-O projeto é um site comercial inicial, não um app com login ou banco de dados. Recursos como login, painel administrativo e cadastro de clientes exigem backend e devem ser adicionados conforme a necessidade.
+## Limitação importante desta versão
+Os dados são salvos em `localStorage` no navegador atual. Isso serve para protótipo e demonstração, mas não é uma solução multiusuário: não sincroniza entre computadores, não tem login, controle de acesso ou banco central. Antes de usar com dados reais de clientes, conectar um backend (por exemplo, Supabase), configurar autenticação e políticas de acesso, e validar segurança/backup. Não armazene senhas ou dados sensíveis nesta versão.
