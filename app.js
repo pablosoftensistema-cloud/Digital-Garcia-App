@@ -73,12 +73,171 @@
   function exportData(){
     const blob=new Blob([JSON.stringify({version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'});
     const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='garcia-digital-backup-'+today()+'.json';a.click();URL.revokeObjectURL(a.href);showToast('Backup exportado.');
+ 
+  function printQuote(idVal) {
+    const q = state.quotes.find(x => x.id === idVal);
+    if (!q) return;
+
+    const l = state.leads.find(x => x.id === q.leadId) || {};
+    const w = window.open('', '_blank');
+
+    if (!w) {
+      showToast('Permita pop-ups para visualizar a proposta.');
+      return;
+    }
+
+    const description = esc(
+      q.description || 'Conforme alinhado com o cliente.'
+    ).replaceAll('\n', '<br>');
+
+    w.document.write(`<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Proposta ${esc(q.number)} | Garcia Digital</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f7;color:#263449;font:14px Arial,sans-serif;line-height:1.65}
+.sheet{max-width:850px;margin:35px auto;background:#fff;box-shadow:0 12px 45px #15294415}
+.header{background:#0b1b33;color:white;padding:38px 45px;border-bottom:6px solid #1685f8}
+.brand{font-size:27px;font-weight:800;letter-spacing:2px}
+.brand span{color:#19b8ff}
+.tagline{color:#c6d7eb;font-size:12px;letter-spacing:1px;margin-top:4px}
+.proposal-no{margin-top:28px;padding-top:17px;border-top:1px solid #ffffff30;display:flex;justify-content:space-between;gap:15px;color:#dbe8f7;font-size:12px}
+.content{padding:38px 45px}
+.eyebrow{font-size:10px;font-weight:bold;letter-spacing:2px;color:#147df5}
+h1{font-size:29px;line-height:1.2;margin:8px 0 10px;color:#10213b}
+.intro{color:#65738a;margin:0 0 28px}
+.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#65738a;border-bottom:1px solid #e4eaf2;padding-bottom:9px;margin:27px 0 14px}
+.client{background:#f5f8fc;border:1px solid #e4eaf2;border-radius:9px;padding:19px 21px}
+.client strong{font-size:17px;color:#10213b}
+.client p{margin:5px 0;color:#64748b;overflow-wrap:anywhere}
+.service{border:1px solid #e1e8f1;border-radius:10px;overflow:hidden}
+.service-head{background:#f2f6fb;padding:16px 19px;font-size:16px;font-weight:bold;color:#10213b}
+.service-body{padding:19px}
+.service-body p{margin:7px 0 16px;overflow-wrap:anywhere}
+.details{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.detail{padding:13px;background:#f7f9fc;border-radius:7px}
+.detail small{display:block;color:#75839a;margin-bottom:4px}
+.detail strong{color:#24344c}
+.total{margin-top:22px;padding:22px 24px;border-radius:9px;background:#0d2342;color:#fff;display:flex;justify-content:space-between;align-items:center;gap:15px}
+.total small{display:block;color:#c5d6eb;font-size:11px}
+.total strong{font-size:29px;color:#fff;white-space:nowrap}
+.conditions{color:#596980;font-size:12px}
+.approval{margin-top:40px;display:grid;grid-template-columns:1fr 1fr;gap:35px}
+.signature{padding-top:28px;border-bottom:1px solid #9ca9ba}
+.signature-label{text-align:center;font-size:11px;color:#64748b;padding-top:8px}
+.footer{background:#f4f7fb;border-top:1px solid #e1e8f1;padding:23px 45px;color:#61718a;font-size:11px}
+.footer strong{color:#10213b;font-size:13px}
+.actions{max-width:850px;margin:20px auto;display:flex;justify-content:flex-end;gap:10px}
+button{border:0;border-radius:7px;padding:12px 18px;font-weight:bold;cursor:pointer}
+.print{background:#147df5;color:white}
+.close{background:#fff;color:#34445b;border:1px solid #d8e0eb}
+@media(max-width:600px){
+ .sheet{margin:0}
+ .header{padding:27px 22px}
+ .content{padding:26px 22px}
+ .footer{padding:20px 22px}
+ .brand{font-size:23px}
+ h1{font-size:25px}
+ .details{grid-template-columns:1fr}
+ .total{align-items:flex-start;flex-direction:column}
+ .approval{gap:20px}
+ .proposal-no{flex-direction:column}
+ .actions{padding:0 12px}
+}
+@media print{
+ @page{size:A4;margin:12mm}
+ body{background:#fff;font-size:12px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+ .sheet{max-width:none;margin:0;box-shadow:none}
+ .header{padding:25px 30px}
+ .content{padding:25px 30px}
+ .footer{padding:17px 30px}
+ .actions{display:none}
+ .total,.header,.service-head,.client,.detail,.footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<main class="sheet">
+<header class="header">
+  <div class="brand">GARCIA <span>DIGITAL</span></div>
+  <div class="tagline">SOLUÇÕES DIGITAIS PARA EMPRESAS</div>
+  <div class="proposal-no">
+    <span>PROPOSTA COMERCIAL Nº ${esc(q.number)}</span>
+    <span>Emitida em ${new Date().toLocaleDateString('pt-BR')}</span>
+  </div>
+</header>
+
+<section class="content">
+  <div class="eyebrow">PROPOSTA PERSONALIZADA</div>
+  <h1>Uma solução para<br>impulsionar seu negócio.</h1>
+  <p class="intro">Apresentamos nossa proposta comercial com os detalhes do serviço, prazo e investimento.</p>
+
+  <div class="section-title">01 · Dados do cliente</div>
+  <div class="client">
+    <strong>${esc(l.name || 'Cliente')}</strong>
+    ${l.company ? `<p>Empresa: ${esc(l.company)}</p>` : ''}
+    ${l.email ? `<p>E-mail: ${esc(l.email)}</p>` : ''}
+    ${l.phone ? `<p>Telefone: ${esc(l.phone)}</p>` : ''}
+  </div>
+
+  <div class="section-title">02 · Solução proposta</div>
+  <div class="service">
+    <div class="service-head">${esc(q.service)}</div>
+    <div class="service-body">
+      <strong>Descrição e entregáveis</strong>
+      <p>${description}</p>
+      <div class="details">
+        <div class="detail">
+          <small>Prazo estimado</small>
+          <strong>${esc(q.deadline || 'A combinar')}</strong>
+        </div>
+        <div class="detail">
+          <small>Validade da proposta</small>
+          <strong>${esc(fmtDate(q.validUntil) || 'A combinar')}</strong>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title">03 · Investimento</div>
+  <div class="total">
+    <div><small>VALOR TOTAL DA PROPOSTA</small><strong>Investimento</strong></div>
+    <strong>${money(q.value)}</strong>
+  </div>
+
+  <div class="section-title">04 · Condições comerciais</div>
+  <div class="conditions">
+    <p><strong>Pagamento:</strong> a combinar entre as partes.</p>
+    <p><strong>Início do projeto:</strong> após aprovação da proposta e alinhamento das condições comerciais.</p>
+    <p><strong>Status interno:</strong> ${esc(q.status)}</p>
+  </div>
+
+  <div class="approval">
+    <div><div class="signature"></div><div class="signature-label">Garcia Digital</div></div>
+    <div><div class="signature"></div><div class="signature-label">Cliente · Aprovação</div></div>
+  </div>
+</section>
+
+<footer class="footer">
+  <strong>GARCIA DIGITAL</strong><br>
+  Desenvolvimento de sites e aplicativos para empresas.<br>
+  WhatsApp: 17 99648-1854<br><br>
+  Obrigado pela oportunidade. Será um prazer fazer parte do crescimento do seu negócio.
+</footer>
+</main>
+
+<div class="actions">
+  <button class="close" onclick="window.close()">Fechar</button>
+  <button class="print" onclick="window.print()">Imprimir / Salvar em PDF</button>
+</div>
+</body>
+</html>`);
+    w.document.close();
   }
-  function printQuote(idVal){
-    const q=state.quotes.find(x=>x.id===idVal);if(!q)return;const l=state.leads.find(x=>x.id===q.leadId)||{};
-    const w=window.open('','_blank');if(!w){showToast('Permita pop-ups para visualizar o orçamento.');return;}
-    w.document.write(`<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><title>Orçamento ${esc(q.number)}</title><style>body{font:15px Arial,sans-serif;color:#1b2638;max-width:800px;margin:45px auto;padding:0 25px}header{border-bottom:3px solid #1387f7;padding-bottom:20px}h1{margin-bottom:4px}small{color:#64748b}.value{font-size:30px;color:#0866dc;font-weight:bold;margin:25px 0}.box{background:#f4f7fb;padding:20px;border-radius:8px;margin:20px 0}.footer{margin-top:60px;border-top:1px solid #ddd;padding-top:15px;color:#64748b;font-size:12px}@media print{button{display:none}}</style></head><body><header><h1>GARCIA DIGITAL</h1><small>Proposta comercial · ${esc(q.number)}</small></header><h2>Orçamento para ${esc(l.name||'Cliente')}</h2><p>${esc(l.company||'')} ${l.email?'· '+esc(l.email):''} ${l.phone?'· '+esc(l.phone):''}</p><div class="box"><b>Serviço</b><p>${esc(q.service)}</p><b>Descrição e entregáveis</b><p>${esc(q.description||'Conforme alinhado com o cliente.').replaceAll('\\n','<br>')}</p><b>Prazo estimado</b><p>${esc(q.deadline||'A combinar')}</p><b>Validade</b><p>${fmtDate(q.validUntil)}</p></div><div class="value">${money(q.value)}</div><p>Status registrado: ${esc(q.status)}</p><div class="footer">Garcia Digital · 17 99648-1854<br>Obrigado pela oportunidade!</div><script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close();
-  }
+
   document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.view)));
   document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>go(b.dataset.goto)));
   document.querySelectorAll('[data-close]').forEach(b=>b.addEventListener('click',()=>closeModal(b.dataset.close)));
